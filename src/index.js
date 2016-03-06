@@ -10,13 +10,11 @@ export default {
   chain(...functions) {
     return chainImpl(Promise.resolve(), ...functions)
   },
-  boundChain(initial = {}, ...functions) {
-    let state = initial
-    let boundFunctions = functions
-    if (state instanceof Function) {
-      boundFunctions = [state].concat([state], functions)
-      state = {}
+  bind(state = {}) {
+    return {
+      chain(...functions) {
+        return chainImpl(Promise.resolve().bind(state), ...functions)
+      }
     }
-    return chainImpl(Promise.resolve().bind(state), ...boundFunctions)
   }
 }
