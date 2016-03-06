@@ -1,9 +1,10 @@
-import Promise from 'bluebird';
+import Promise from 'bluebird'
+
 Promise.config({
   warnings: true,
-  longStackTraces: true,
-});
+  longStackTraces: true
+})
 
-import chai from 'chai';
+import chai from 'chai'
 
-chai.should();
+chai.should()

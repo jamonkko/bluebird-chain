@@ -1,6 +1,6 @@
 import Promise from 'bluebird'
 
 export default (value) =>
-  new Promise( (resolve) =>
+  new Promise((resolve) =>
     setImmediate(resolve, value)
   )
