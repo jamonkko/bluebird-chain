@@ -26,4 +26,33 @@ suite('bluebird all and props automatically applied in the chain', () => {
       b.should.equal('bmap')
     })
   )
+
+  test('automatic props for function can be explicitly avoided', () =>
+    PromiseUtil.chain(
+      PromiseUtil.raw(() => ({
+        a: idAsync('a')
+      }))
+    ).then(({ a }) => {
+      a.then.should.be.a('function', 'should still be promise')
+    })
+  )
+
+  test('automatic props return value can be explicitly avoided', () =>
+    PromiseUtil.chain(
+      () => PromiseUtil.raw({
+        a: idAsync('a')
+      })
+    ).then(({ a }) => {
+      a.then.should.be.a('function', 'should still be promise')
+    })
+  )
+
+  test('automatic all for function can be explicitly avoided', () =>
+    // TODO
+    true
+  )
+
+  test('automatic all return value can be explicitly avoided', () =>
+    true // TODO
+  )
 })
