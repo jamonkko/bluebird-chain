@@ -12,7 +12,7 @@ suite('basic chaining', () => {
     )
   )
 
-  test('Initial value is passed on', () =>
+  test('initial value is passed on', () =>
     PromiseUtil.chain(
       'a',
       (value) => idAsync(`${value}b`)

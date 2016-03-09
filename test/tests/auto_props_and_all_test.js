@@ -27,6 +27,23 @@ suite('bluebird all and props automatically applied in the chain', () => {
     })
   )
 
+  test('automatic promise resolving', () =>
+    PromiseUtil.chain(
+      ['a', 'a', 'a', 'b', 'c', 'd', 'c', 'd'],
+      _.map((val) => idAsync(val)),
+      _.dropWhile((val) => val === 'a'),
+      _.groupBy(_.identity),
+      _.mapValues(group =>
+        Promise.all(group.map((val, index) =>
+          idAsync(`${index + 1}${val}`)
+        )))
+    ).then(({ b, c, d }) => {
+      b.should.have.members(['1b'])
+      c.should.have.members(['1c', '2c'])
+      d.should.have.members(['1d', '2d'])
+    })
+  )
+
   test('automatic props for function can be explicitly avoided', () =>
     PromiseUtil.chain(
       PromiseUtil.raw(() => ({
@@ -48,11 +65,18 @@ suite('bluebird all and props automatically applied in the chain', () => {
   )
 
   test('automatic all for function can be explicitly avoided', () =>
-    // TODO
-    true
+    PromiseUtil.chain(
+      PromiseUtil.raw(() => [idAsync('a'), idAsync('b')])
+    ).then(([a]) => {
+      a.then.should.be.a('function', 'should still be promise')
+    })
   )
 
   test('automatic all return value can be explicitly avoided', () =>
-    true // TODO
+    PromiseUtil.chain(
+      () => PromiseUtil.raw([idAsync('a'), idAsync('b')])
+    ).then(([a]) => {
+      a.then.should.be.a('function', 'should still be promise')
+    })
   )
 })
