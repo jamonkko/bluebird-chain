@@ -1,5 +1,5 @@
 import PromiseUtil from '../../src/index'
-import idAsync from '../async_function'
+import { idAsync } from '../async_functions'
 
 suite('bluebird bind with chaining', () => {
   test('simple binding with automatically created initial bind value', () =>

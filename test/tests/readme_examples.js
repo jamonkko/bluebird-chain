@@ -1,11 +1,6 @@
 import P from '../../src/index'
 import _ from 'lodash/fp'
-
-const getBooksReadAsync = () => new Promise((resolve) =>
-  resolve(['Moby Dick', 'A Tale of Two Cities']))
-
-const calculateTasteScoreAsync = () => new Promise((resolve) =>
-  resolve(_.random(1, 10)))
+import { getBooksReadAsync, calculateTasteScoreAsync } from '../async_functions'
 
 suite('readme', () => {
   test('example 1', () =>

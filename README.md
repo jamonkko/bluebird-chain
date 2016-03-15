@@ -4,6 +4,10 @@ Sorry [await](https://tc39.github.io/ecmascript-asyncawait/#examples), it does n
 
 ## tl;dr
 ```javascript
+  import P from 'bluebird-chain'
+  import _ from 'lodash/fp'
+  import { getBooksReadAsync, calculateTasteScoreAsync } from 'my_async_functions'
+
   P.chain(
     ['John', 'Mary', 'Spirit'],
     _.reduce((res, name) => _.assign(res, {[name]: getBooksReadAsync(name)}), {}),

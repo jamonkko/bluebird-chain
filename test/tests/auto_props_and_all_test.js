@@ -1,5 +1,5 @@
 import P from '../../src/index'
-import idAsync from '../async_function'
+import { idAsync } from '../async_functions'
 import _ from 'lodash/fp'
 
 suite('bluebird all and props automatically applied in the chain', () => {
