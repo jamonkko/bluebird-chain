@@ -1,10 +1,10 @@
-import PromiseUtil from '../../src/index'
+import P from '../../src/index'
 import idAsync from '../async_function'
 import _ from 'lodash/fp'
 
 suite('bluebird all and props automatically applied in the chain', () => {
   test('all is automatically applied', () =>
-    PromiseUtil.chain(
+    P.chain(
       () => [idAsync('a'), idAsync('b')],
       _.map((val) => idAsync(`${val}map`))
     ).then(([a, b]) => {
@@ -14,7 +14,7 @@ suite('bluebird all and props automatically applied in the chain', () => {
   )
 
   test('props is automatically applied', () =>
-    PromiseUtil.chain(
+    P.chain(
       () => (
         {
           a: idAsync('a'),
@@ -28,7 +28,7 @@ suite('bluebird all and props automatically applied in the chain', () => {
   )
 
   test('automatic promise resolving', () =>
-    PromiseUtil.chain(
+    P.chain(
       ['a', 'a', 'a', 'b', 'c', 'd', 'c', 'd'],
       _.map((val) => idAsync(val)),
       _.dropWhile((val) => val === 'a'),
@@ -45,8 +45,8 @@ suite('bluebird all and props automatically applied in the chain', () => {
   )
 
   test('automatic props for function can be explicitly avoided', () =>
-    PromiseUtil.chain(
-      PromiseUtil.raw(() => ({
+    P.chain(
+      P.raw(() => ({
         a: idAsync('a')
       }))
     ).then(({ a }) => {
@@ -55,8 +55,8 @@ suite('bluebird all and props automatically applied in the chain', () => {
   )
 
   test('automatic props return value can be explicitly avoided', () =>
-    PromiseUtil.chain(
-      () => PromiseUtil.raw({
+    P.chain(
+      () => P.raw({
         a: idAsync('a')
       })
     ).then(({ a }) => {
@@ -65,16 +65,16 @@ suite('bluebird all and props automatically applied in the chain', () => {
   )
 
   test('automatic all for function can be explicitly avoided', () =>
-    PromiseUtil.chain(
-      PromiseUtil.raw(() => [idAsync('a'), idAsync('b')])
+    P.chain(
+      P.raw(() => [idAsync('a'), idAsync('b')])
     ).then(([a]) => {
       a.then.should.be.a('function', 'should still be promise')
     })
   )
 
   test('automatic all return value can be explicitly avoided', () =>
-    PromiseUtil.chain(
-      () => PromiseUtil.raw([idAsync('a'), idAsync('b')])
+    P.chain(
+      () => P.raw([idAsync('a'), idAsync('b')])
     ).then(([a]) => {
       a.then.should.be.a('function', 'should still be promise')
     })
