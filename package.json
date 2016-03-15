@@ -1,5 +1,5 @@
 {
-  "name": "node-bluebird-chain",
+  "name": "bluebird-chain",
   "version": "0.0.1",
   "description": "Chain utility for promises",
   "main": "lib/index.js",
