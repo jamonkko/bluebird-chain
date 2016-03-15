@@ -6,12 +6,12 @@ suite('readme', () => {
   test('example 1', () =>
     P.chain(
       ['John', 'Mary', 'Spirit'],
-      _.reduce((res, name) => _.assign(res, {[name]: getBooksReadAsync(name)}), {}),
+      _.reduce((res, name) => _.assign(res, { [name]: getBooksReadAsync(name) }), {}),
       _.mapValues((books) => calculateTasteScoreAsync(books)),
       _.toPairs,
       _.map(_.zipObject(['name', 'score'])),
       _.maxBy('score'),
-      _.tap(({name}) => console.log(`${name} has the best taste!`))
+      _.tap(({ name }) => console.log(`${name} has the best taste!`))
     )
   )
 })
