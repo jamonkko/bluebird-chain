@@ -20,7 +20,7 @@
     "flow",
     "fp"
   ],
-  "author": "Jarkko Mönkkönen",
+  "author": "Jarkko Mönkkönen <jamonkko@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jamonkko/node-bluebird-chain/issues"
