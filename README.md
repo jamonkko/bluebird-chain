@@ -1,6 +1,6 @@
 # node-bluebird-chain
 Compose your async program flow from pure style functions and promises.
-Sorry await, it does not really get any better than that.
+Sorry [await](https://tc39.github.io/ecmascript-asyncawait/#examples), it does not really get any better than this!
 
 ## tl;dr
 ```javascript
