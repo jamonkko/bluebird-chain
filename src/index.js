@@ -1,9 +1,14 @@
 import Promise from 'bluebird'
 const raw = Symbol('raw')
+const options = {
+  aware: false
+}
 
 function chainImpl(first, ...functions) {
   function allOrPropsIfNeeded(result) {
-    if (!result) {
+    if (!options.aware) {
+      return result
+    } else if (!result) {
       return result
     } else if (typeof result.then === 'function') {
       return result
@@ -27,6 +32,11 @@ function chainImpl(first, ...functions) {
 }
 
 export default {
+  config({ aware }) {
+    if (typeof aware !== 'undefined') {
+      options.aware = aware
+    }
+  },
   chain(...functions) {
     return chainImpl(Promise.resolve(), ...functions)
   },

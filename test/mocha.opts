@@ -1,4 +1,4 @@
 --require ./test/test_helper.js
 --compilers js:babel-core/register
 --ui tdd
-test/tests/
+test/hooks.js test/tests/
