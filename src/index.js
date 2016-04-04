@@ -6,17 +6,17 @@ const options = {
 
 function chainImpl(first, ...functions) {
   function allOrPropsIfNeeded(result) {
-    if (!options.aware) {
-      return result
-    } else if (!result) {
+    if (!result) {
       return result
     } else if (typeof result.then === 'function') {
       return result
     } else if (result[raw]) {
       return result[raw]()
-    } else if (result instanceof Array) {
+    } else if (!options.aware) {
+      return result
+    } else if (options.aware.all && result instanceof Array) {
       return Promise.all(result)
-    } else if (typeof result === 'object') {
+    } else if (options.aware.props && typeof result === 'object') {
       return Promise.props(result)
     }
     return result
@@ -34,7 +34,16 @@ function chainImpl(first, ...functions) {
 export default {
   config({ aware }) {
     if (typeof aware !== 'undefined') {
-      options.aware = aware
+      if (aware === true) {
+        options.aware = {
+          all: true,
+          props: true
+        }
+      } else if (typeof aware === 'object') {
+        options.aware = Object.assign({}, options.aware, aware)
+      } else {
+        options.aware = aware
+      }
     }
   },
   chain(...functions) {

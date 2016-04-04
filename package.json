@@ -6,6 +6,7 @@
   "jsnext:main": "src/index.js",
   "scripts": {
     "test": "mocha --ui tdd",
+    "autotest": "mocha --ui tdd --watch",
     "build": "npm run lint && npm test && babel src -d lib",
     "lint": "eslint src test"
   },

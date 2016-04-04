@@ -49,34 +49,70 @@ suite('bluebird all and props automatically applied in the chain', () => {
       P.raw(() => ({
         a: idAsync('a')
       }))
-    ).then(({ a }) => {
+    ).then(({ a }) =>
       a.then.should.be.a('function', 'should still be promise')
-    })
+    )
   )
+
+  test('automatic props for function can be turned off', () => {
+    P.config({ aware: { props: false } })
+    return P.chain(
+      () => ({
+        a: idAsync('a')
+      })
+    ).then(({ a }) =>
+      a.then.should.be.a('function', 'should still be promise')
+    )
+  })
 
   test('automatic props return value can be explicitly avoided', () =>
     P.chain(
       () => P.raw({
         a: idAsync('a')
       })
-    ).then(({ a }) => {
+    ).then(({ a }) =>
       a.then.should.be.a('function', 'should still be promise')
-    })
+    )
   )
 
   test('automatic all for function can be explicitly avoided', () =>
     P.chain(
       P.raw(() => [idAsync('a'), idAsync('b')])
-    ).then(([a]) => {
+    ).then(([a]) =>
       a.then.should.be.a('function', 'should still be promise')
-    })
+    )
   )
+
+  test('automatic all for function can be turned off', () => {
+    P.config({ aware: { all: false } })
+    return P.chain(
+      () => [idAsync('a'), idAsync('b')]
+    ).then(([a]) =>
+      a.then.should.be.a('function', 'should still be promise')
+    )
+  })
 
   test('automatic all return value can be explicitly avoided', () =>
     P.chain(
       () => P.raw([idAsync('a'), idAsync('b')])
-    ).then(([a]) => {
+    ).then(([a]) =>
       a.then.should.be.a('function', 'should still be promise')
-    })
+    )
   )
+
+  test('automatic resolving can be turned off completely', () => {
+    P.config({ aware: false })
+    return P.chain(
+      () => ({
+        a: idAsync('a')
+      }),
+      ({ a }) =>
+        a.then.should.be.a('function', 'should still be promise')
+      ,
+      () => [idAsync('a'), idAsync('b')],
+      ([a]) =>
+        a.then.should.be.a('function', 'should still be promise')
+
+    )
+  })
 })

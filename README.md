@@ -7,6 +7,7 @@ Sorry [await](https://tc39.github.io/ecmascript-asyncawait/#examples), it does n
   import P from 'bluebird-chain'
   import _ from 'lodash/fp'
   import { getBooksReadAsync, calculateTasteScoreAsync } from 'my_async_functions'
+  P.config({ aware: true })
 
   P.chain(
     ['John', 'Mary', 'Spirit'],
