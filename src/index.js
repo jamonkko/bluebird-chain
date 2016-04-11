@@ -14,15 +14,17 @@ function chainImpl(first, ...functions) {
       return result[raw]()
     } else if (!options.aware) {
       return result
-    } else if (options.aware.all && result instanceof Array) {
-      return Promise.all(result)
+    } else if (result instanceof Array) {
+      if (options.aware.all) {
+        return Promise.all(result)
+      }
     } else if (options.aware.props && typeof result === 'object') {
       return Promise.props(result)
     }
     return result
   }
   return functions
-    .map((f) => (f instanceof Function || f[raw]) ? f : () => f)
+    .map((f) => ((f instanceof Function || f[raw]) ? f : () => f))
     .reduce((promise, f) => {
       if (f[raw]) {
         return promise.then(f[raw])
