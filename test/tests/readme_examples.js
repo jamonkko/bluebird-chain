@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import P from '../../src/index'
 import _ from 'lodash/fp'
 import { getBooksReadAsync, calculateTasteScoreAsync } from '../async_functions'
@@ -17,3 +19,5 @@ suite('readme', () => {
     )
   )
 })
+
+/* eslint-enable no-console */
