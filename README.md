@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/jamonkko/node-bluebird-chain.svg?branch=master)](https://travis-ci.org/jamonkko/node-bluebird-chain)
 # node-bluebird-chain
 Compose your async program flow from pure style functions and promises.
 Sorry [await](https://tc39.github.io/ecmascript-asyncawait/#examples), it does not really get any better than this!
