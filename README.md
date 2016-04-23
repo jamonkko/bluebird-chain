@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/jamonkko/node-bluebird-chain.svg?branch=master)](https://travis-ci.org/jamonkko/node-bluebird-chain)
 [![Coverage Status](https://coveralls.io/repos/github/jamonkko/node-bluebird-chain/badge.svg?branch=master)](https://coveralls.io/github/jamonkko/node-bluebird-chain?branch=master)
-[![npm version](https://img.shields.io/npm/v/bluebird-chain.svg?style=flat-square))](https://www.npmjs.com/package/bluebird-chain)
+[![npm version](https://img.shields.io/npm/v/bluebird-chain.svg?style=flat-square)](https://www.npmjs.com/package/bluebird-chain)
 [![npm downloads](https://img.shields.io/npm/dm/bluebird-chain.svg?style=flat-square)](https://www.npmjs.com/package/bluebird-chain)
 # node-bluebird-chain
 Compose your async program flow from pure style functions and promises.
