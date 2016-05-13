@@ -1,4 +1,8 @@
-import Promise from 'bluebird'
+import * as bluebird from 'bluebird'
+
+// Make sure that Promise works in browser when there is no import
+const Promise = bluebird.Promise || window.Promise
+
 const raw = Symbol('raw')
 const options = {
   aware: false

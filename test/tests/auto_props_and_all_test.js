@@ -1,4 +1,4 @@
-import P from '../../src/index'
+import P from '../../src/bluebird-chain'
 import { idAsync } from '../async_functions'
 import _ from 'lodash/fp'
 

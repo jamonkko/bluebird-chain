@@ -1,1 +1,3 @@
 node_modules/
+test/browser/
+lib/*.js

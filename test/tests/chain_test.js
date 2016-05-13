@@ -1,4 +1,4 @@
-import PromiseUtil from '../../src/index'
+import PromiseUtil from '../../src/bluebird-chain'
 import { idAsync } from '../async_functions'
 
 suite('basic chaining', () => {

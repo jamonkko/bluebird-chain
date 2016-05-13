@@ -1,4 +1,4 @@
-import P from '../src/index.js'
+import P from '../src/bluebird-chain.js'
 
 beforeEach(() =>
   P.config({ aware: true })

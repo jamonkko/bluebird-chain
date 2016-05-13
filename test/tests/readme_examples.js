@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
-
-import P from '../../src/index'
+import P from '../../src/bluebird-chain'
 import _ from 'lodash/fp'
 import { getBooksReadAsync, calculateTasteScoreAsync } from '../async_functions'
 
