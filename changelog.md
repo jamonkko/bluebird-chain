@@ -3,6 +3,7 @@ Version: 0.1.1
 - Rename index.js to bluebird-chain.js 
 - Add browser support
 - use babel-plugin-rename-umd-globals
+- replace isparta with nyc
 
 Version: 0.1.0
 --------------
