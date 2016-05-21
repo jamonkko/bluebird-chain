@@ -7,11 +7,50 @@
   <title>Test bluebird chain in browser</title>
   <meta name="description" content="Test bluebird chain in browser">
   <meta name="author" content="jamonkko">
+  <link rel="stylesheet" href="../../node_modules/mocha/mocha.css" />
+  <script src="../../node_modules/babel-polyfill/dist/polyfill.js"></script>
   <script src="../../node_modules/bluebird/js/browser/bluebird.js"></script>
   <script src="../../lib/bluebird-chain.js"></script>
 </head>
 
 <body>
+  <div id="mocha"></div>
+  <script type="text/javascript" src="../../node_modules/mocha/mocha.js"></script>
+  <script type="text/javascript" src="../../node_modules/chai/chai.js"></script>
+  <script type="text/javascript" src="../../node_modules/ramda/dist/ramda.js"></script>
 
+  <script type="text/javascript">
+    // MOCHA SETUP
+    chai.should();
+    mocha.setup('tdd');
+
+    function idAsync(value) {
+      return new Promise(function(resolve) {
+        setTimeout(resolve, 0, value);
+      })
+    }
+
+    suite('Run some tests in browser', function() {
+      test('automatic promise resolving', function(done) {
+        PC.chain(
+          ['a', 'a', 'a', 'b', 'c', 'd', 'c', 'd'],
+          R.map(function(val) { return idAsync(val) }),
+          R.dropWhile(function(val) { return val === 'a' }),
+          R.groupBy(R.identity),
+          R.map(function(group) {
+            return Promise.all(group.map(function (val, index) {
+              return idAsync((index + 1) + val);
+            }))})
+        ).then(function (result) {
+          result.b.should.have.members(['1b'])
+          result.c.should.have.members(['1c', '2c'])
+          result.d.should.have.members(['1d', '2d'])
+        })
+        .nodeify(done)
+      })
+    });
+
+    mocha.run();
+  </script>
 </body>
 </html>
