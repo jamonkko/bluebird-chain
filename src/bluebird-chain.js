@@ -4,9 +4,7 @@ import * as bluebird from 'bluebird'
 const Promise = bluebird.Promise || window.Promise
 
 const raw = Symbol('raw')
-const options = {
-  aware: false
-}
+const options = {}
 
 function chainImpl(first, ...functions) {
   function allOrPropsIfNeeded(result) {
@@ -37,7 +35,7 @@ function chainImpl(first, ...functions) {
     }, first)
 }
 
-export default {
+const bluebirdChain = {
   config({ aware }) {
     if (typeof aware !== 'undefined') {
       if (aware === true) {
@@ -68,3 +66,6 @@ export default {
     }
   }
 }
+
+bluebirdChain.config({ aware: true })
+export { bluebirdChain as default }

@@ -3,8 +3,6 @@ import P from '../../src/bluebird-chain'
 import _ from 'lodash/fp'
 import { getBooksReadAsync, calculateTasteScoreAsync } from '../async_functions'
 
-P.config({ aware: true })
-
 suite('readme', () => {
   test('example 1', () =>
     P.chain(
