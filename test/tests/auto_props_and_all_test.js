@@ -1,6 +1,6 @@
+import _ from 'lodash/fp'
 import P from '../../src/bluebird-chain'
 import { idAsync } from '../async_functions'
-import _ from 'lodash/fp'
 
 suite('bluebird all and props automatically applied in the chain', () => {
   test('all is automatically applied', () =>
