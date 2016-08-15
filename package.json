@@ -10,9 +10,10 @@
     "src"
   ],
   "scripts": {
-    "test": "mocha --ui tdd",
+    "test": "mocha",
     "test:browser": "phantomjs ./node_modules/mocha-phantomjs-core/mocha-phantomjs-core.js test/browser/index.html spec \"{\\\"useColors\\\": true}\"",
-    "autotest": "mocha --ui tdd --watch",
+    "test:legacy": "mocha --opts ./test/legacy.opts",
+    "autotest": "mocha --watch",
     "babel": "babel src/bluebird-chain.js -o lib/bluebird-chain.js",
     "minify": "uglifyjs lib/bluebird-chain.js -c -m -o lib/bluebird-chain.min.js",
     "lint": "eslint src test",

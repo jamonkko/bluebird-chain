@@ -10,5 +10,5 @@ node_js:
 install:
   - npm install
 
-script: if [[ `node -v` == v0.1* ]]; then npm test; else npm run build && npm run cover; fi
+script: if [[ `node -v` == v0.1* ]]; then npm run test:legacy; else npm run build && npm run cover; fi
 after_script: 'npm run cover:report'

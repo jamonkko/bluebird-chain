@@ -1,0 +1,5 @@
+--require babel-polyfill
+--require ./test/test_helper.js
+--compilers js:babel-core/register
+--ui tdd
+test/tests/
