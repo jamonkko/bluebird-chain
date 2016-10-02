@@ -1,3 +1,9 @@
+/*!
+ * @license
+ * bluebird-chain v0.1.0 (https://github.com/jamonkko/node-bluebird-chain#readme)
+ * Copyright 2016 Jarkko Mönkkönen <jamonkko@gmail.com>
+ * Licensed under MIT
+ */
 import * as bluebird from 'bluebird'
 
 // Make sure that Promise works in browser when there is no import
