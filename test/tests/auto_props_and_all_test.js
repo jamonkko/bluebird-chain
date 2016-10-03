@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 import _ from 'lodash/fp'
 import P from '../../src/bluebird-chain'
 import { idAsync } from '../async_functions'

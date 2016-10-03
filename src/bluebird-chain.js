@@ -12,8 +12,8 @@ const Promise = bluebird.Promise || window.Promise
 const raw = Symbol('raw')
 const options = {}
 
-function chainImpl(first, ...functions) {
-  function allOrPropsIfNeeded(result) {
+function chainImpl (first, ...functions) {
+  function allOrPropsIfNeeded (result) {
     if (!result) {
       return result
     } else if (typeof result.then === 'function') {
@@ -42,7 +42,7 @@ function chainImpl(first, ...functions) {
 }
 
 const bluebirdChain = {
-  config({ aware }) {
+  config ({ aware }) {
     if (typeof aware !== 'undefined') {
       if (aware === true) {
         options.aware = {
@@ -56,17 +56,17 @@ const bluebirdChain = {
       }
     }
   },
-  chain(...functions) {
+  chain (...functions) {
     return chainImpl(Promise.resolve(), ...functions)
   },
-  bind(state = {}) {
+  bind (state = {}) {
     return {
-      chain(...functions) {
+      chain (...functions) {
         return chainImpl(Promise.resolve().bind(state), ...functions)
       }
     }
   },
-  raw(func) {
+  raw (func) {
     return {
       [raw]: func instanceof Function ? func : () => func
     }

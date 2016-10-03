@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-env mocha */
 import _ from 'lodash/fp'
 import P from '../../src/bluebird-chain'
 import { getBooksReadAsync, calculateTasteScoreAsync } from '../async_functions'
@@ -17,4 +17,3 @@ suite('readme', () => {
   )
 })
 
-/* eslint-enable no-console */

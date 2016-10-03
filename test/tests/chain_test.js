@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 import PromiseUtil from '../../src/bluebird-chain'
 import { idAsync } from '../async_functions'
 
