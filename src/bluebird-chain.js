@@ -9,7 +9,7 @@ import * as bluebird from 'bluebird'
 // Make sure that Promise works in browser when there is no import
 const Promise = bluebird.Promise || window.Promise
 
-const raw = Symbol('raw')
+const esc = Symbol('esc')
 const options = {}
 
 function chainImpl (first, ...functions) {
@@ -18,8 +18,8 @@ function chainImpl (first, ...functions) {
       return result
     } else if (typeof result.then === 'function') {
       return result
-    } else if (result[raw]) {
-      return result[raw]()
+    } else if (result[esc]) {
+      return result[esc]()
     } else if (!options.aware) {
       return result
     } else if (result instanceof Array) {
@@ -32,10 +32,10 @@ function chainImpl (first, ...functions) {
     return result
   }
   return functions
-    .map((f) => ((f instanceof Function || f[raw]) ? f : () => f))
+    .map((f) => ((f instanceof Function || f[esc]) ? f : () => f))
     .reduce((promise, f) => {
-      if (f[raw]) {
-        return promise.then(f[raw])
+      if (f[esc]) {
+        return promise.then(f[esc])
       }
       return promise.then(f).then(allOrPropsIfNeeded)
     }, first)
@@ -66,8 +66,8 @@ bluebirdChain.bind = (state = {}) => ({
   }
 })
 
-bluebirdChain.raw = (func) => ({
-  [raw]: func instanceof Function ? func : () => func
+bluebirdChain.esc = (func) => ({
+  [esc]: func instanceof Function ? func : () => func
 })
 
 bluebirdChain.config({ aware: true })

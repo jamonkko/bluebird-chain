@@ -70,9 +70,9 @@ suite('bluebird all and props automatically applied in the chain', () => {
     )
   )
 
-  test('automatic props for function can be explicitly avoided from returned value', () =>
+  test('automatic props for function can be explicitly escaped from returned value', () =>
     pchain(
-      pchain.raw(() => ({
+      pchain.esc(() => ({
         a: idAsync('a')
       }))
     ).then(({ a }) =>
@@ -80,9 +80,9 @@ suite('bluebird all and props automatically applied in the chain', () => {
     )
   )
 
-  test('automatic props for function can be explicitly avoided inside chain', () =>
+  test('automatic props for function can be explicitly escaped inside chain', () =>
     pchain(
-      pchain.raw(() => ({
+      pchain.esc(() => ({
         a: idAsync('a')
       })),
       ({ a }) =>
@@ -101,9 +101,9 @@ suite('bluebird all and props automatically applied in the chain', () => {
     )
   })
 
-  test('automatic all for function can be explicitly avoided', () =>
+  test('automatic all for function can be explicitly escaped', () =>
     pchain(
-      pchain.raw(() => [idAsync('a'), idAsync('b')]),
+      pchain.esc(() => [idAsync('a'), idAsync('b')]),
       ([a]) =>
         a.then.should.be.a('function', 'should still be promise')
     )
@@ -118,9 +118,9 @@ suite('bluebird all and props automatically applied in the chain', () => {
     )
   })
 
-  test('automatic all return value can be explicitly avoided', () =>
+  test('automatic all return value can be explicitly escaped', () =>
     pchain(
-      () => pchain.raw([idAsync('a'), idAsync('b')])
+      () => pchain.esc([idAsync('a'), idAsync('b')])
     ).then(([a]) =>
       a.then.should.be.a('function', 'should still be promise')
     )
