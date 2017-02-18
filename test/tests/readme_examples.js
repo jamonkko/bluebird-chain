@@ -1,11 +1,11 @@
 /* eslint-env mocha */
 import _ from 'lodash/fp'
-import P from '../../src/bluebird-chain'
+import pchain from '../../src/bluebird-chain'
 import { getBooksReadAsync, calculateTasteScoreAsync } from '../async_functions'
 
 suite('readme', () => {
   test('example 1', () =>
-    P.chain(
+    pchain(
       ['John', 'Mary', 'Spirit'],
       _.reduce((res, name) => _.assign(res, { [name]: getBooksReadAsync(name) }), {}),
       _.mapValues((books) => calculateTasteScoreAsync(books)),

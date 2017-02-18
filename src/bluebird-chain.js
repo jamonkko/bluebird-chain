@@ -1,7 +1,7 @@
 /*!
  * @license
  * bluebird-chain v0.1.0 (https://github.com/jamonkko/bluebird-chain#readme)
- * Copyright 2016 Jarkko Mönkkönen <jamonkko@gmail.com>
+ * Copyright 2017 Jarkko Mönkkönen <jamonkko@gmail.com>
  * Licensed under MIT
  */
 import * as bluebird from 'bluebird'
@@ -41,37 +41,34 @@ function chainImpl (first, ...functions) {
     }, first)
 }
 
-const bluebirdChain = {
-  config ({ aware }) {
-    if (typeof aware !== 'undefined') {
-      if (aware === true) {
-        options.aware = {
-          all: true,
-          props: true
-        }
-      } else if (typeof aware === 'object') {
-        options.aware = Object.assign({}, options.aware, aware)
-      } else {
-        options.aware = aware
+const bluebirdChain = (...functions) => bluebirdChain.chain(...functions)
+
+bluebirdChain.config = ({ aware }) => {
+  if (typeof aware !== 'undefined') {
+    if (aware === true) {
+      options.aware = {
+        all: true,
+        props: true
       }
-    }
-  },
-  chain (...functions) {
-    return chainImpl(Promise.resolve(), ...functions)
-  },
-  bind (state = {}) {
-    return {
-      chain (...functions) {
-        return chainImpl(Promise.resolve().bind(state), ...functions)
-      }
-    }
-  },
-  raw (func) {
-    return {
-      [raw]: func instanceof Function ? func : () => func
+    } else if (typeof aware === 'object') {
+      options.aware = Object.assign({}, options.aware, aware)
+    } else {
+      options.aware = !!aware
     }
   }
 }
+
+bluebirdChain.chain = (...functions) => chainImpl(Promise.resolve(), ...functions)
+
+bluebirdChain.bind = (state = {}) => ({
+  chain (...functions) {
+    return chainImpl(Promise.resolve().bind(state), ...functions)
+  }
+})
+ 
+bluebirdChain.raw = (func) => ({
+  [raw]: func instanceof Function ? func : () => func
+})
 
 bluebirdChain.config({ aware: true })
 export { bluebirdChain as default }

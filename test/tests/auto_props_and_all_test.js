@@ -1,35 +1,59 @@
 /* eslint-env mocha */
 import _ from 'lodash/fp'
-import P from '../../src/bluebird-chain'
+import pchain from '../../src/bluebird-chain'
 import { idAsync } from '../async_functions'
 
 suite('bluebird all and props automatically applied in the chain', () => {
-  test('all is automatically applied', () =>
-    P.chain(
-      () => [idAsync('a'), idAsync('b')],
-      _.map((val) => idAsync(`${val}map`))
-    ).then(([a, b]) => {
-      a.should.equal('amap')
-      b.should.equal('bmap')
+  test('all is automatically applied to the returned array', () =>
+    pchain(
+      () => [idAsync('a'), idAsync('b')]
+    ).then(([a, b]) =>  {
+      a.should.equal('a')
+      b.should.equal('b')
     })
   )
 
-  test('props is automatically applied', () =>
-    P.chain(
+  test('all is automatically applied in the chain', () =>
+    pchain(
+      () => [idAsync('a'), idAsync('b')],
+      _.map((val) => idAsync(`${val}map`)),
+      ([a, b]) => {
+        a.should.equal('amap')
+        b.should.equal('bmap')
+      }
+    )
+  )
+
+  test('props is automatically applied to returned object', () =>
+    pchain(
+      () => (
+        {
+          a: idAsync('a'),
+          b: idAsync('b')
+        })
+    ).then(({a, b}) =>  {
+      a.should.equal('a')
+      b.should.equal('b')
+    })
+  )
+
+  test('props is automatically applied in chain', () =>
+    pchain(
       () => (
         {
           a: idAsync('a'),
           b: idAsync('b')
         }),
-      _.mapValues((val) => idAsync(`${val}map`))
-    ).then(({ a, b }) => {
-      a.should.equal('amap')
-      b.should.equal('bmap')
-    })
+      _.mapValues((val) => idAsync(`${val}map`)),
+      ({ a, b }) => {
+        a.should.equal('amap')
+        b.should.equal('bmap')   
+      }
+    )
   )
 
   test('automatic promise resolving', () =>
-    P.chain(
+    pchain(
       ['a', 'a', 'a', 'b', 'c', 'd', 'c', 'd'],
       _.map((val) => idAsync(val)),
       _.dropWhile((val) => val === 'a'),
@@ -37,17 +61,18 @@ suite('bluebird all and props automatically applied in the chain', () => {
       _.mapValues(group =>
         Promise.all(group.map((val, index) =>
           idAsync(`${index + 1}${val}`)
-        )))
-    ).then(({ b, c, d }) => {
-      b.should.have.members(['1b'])
-      c.should.have.members(['1c', '2c'])
-      d.should.have.members(['1d', '2d'])
-    })
+        ))),
+      ({ b, c, d }) => {
+        b.should.have.members(['1b'])
+        c.should.have.members(['1c', '2c'])
+        d.should.have.members(['1d', '2d'])
+      }
+    )
   )
 
-  test('automatic props for function can be explicitly avoided', () =>
-    P.chain(
-      P.raw(() => ({
+  test('automatic props for function can be explicitly avoided from returned value', () =>
+    pchain(
+      pchain.raw(() => ({
         a: idAsync('a')
       }))
     ).then(({ a }) =>
@@ -55,55 +80,55 @@ suite('bluebird all and props automatically applied in the chain', () => {
     )
   )
 
-  test('automatic props for function can be turned off', () => {
-    P.config({ aware: { props: false } })
-    return P.chain(
-      () => ({
+  test('automatic props for function can be explicitly avoided inside chain', () =>
+    pchain(
+      pchain.raw(() => ({
         a: idAsync('a')
-      })
-    ).then(({ a }) =>
-      a.then.should.be.a('function', 'should still be promise')
-    )
-  })
-
-  test('automatic props return value can be explicitly avoided', () =>
-    P.chain(
-      () => P.raw({
-        a: idAsync('a')
-      })
-    ).then(({ a }) =>
-      a.then.should.be.a('function', 'should still be promise')
+      })),
+      ({ a }) =>
+        a.then.should.be.a('function', 'should still be promise')
     )
   )
 
+  test('automatic props for function can be turned off', () => {
+    pchain.config({ aware: { props: false } })
+    return pchain(
+      () => ({
+        a: idAsync('a')
+      }),
+      ({ a }) =>
+        a.then.should.be.a('function', 'should still be promise')
+    )
+  })
+
   test('automatic all for function can be explicitly avoided', () =>
-    P.chain(
-      P.raw(() => [idAsync('a'), idAsync('b')])
-    ).then(([a]) =>
-      a.then.should.be.a('function', 'should still be promise')
+    pchain(
+      pchain.raw(() => [idAsync('a'), idAsync('b')]),
+      ([a]) =>
+        a.then.should.be.a('function', 'should still be promise')
     )
   )
 
   test('automatic all for function can be turned off', () => {
-    P.config({ aware: { all: false } })
-    return P.chain(
-      () => [idAsync('a'), idAsync('b')]
-    ).then(([a]) =>
-      a.then.should.be.a('function', 'should still be promise')
+    pchain.config({ aware: { all: false } })
+    return pchain(
+      () => [idAsync('a'), idAsync('b')],
+      ([a]) =>
+        a.then.should.be.a('function', 'should still be promise')
     )
   })
 
   test('automatic all return value can be explicitly avoided', () =>
-    P.chain(
-      () => P.raw([idAsync('a'), idAsync('b')])
+    pchain(
+      () => pchain.raw([idAsync('a'), idAsync('b')])
     ).then(([a]) =>
       a.then.should.be.a('function', 'should still be promise')
     )
   )
 
   test('automatic resolving can be turned off completely', () => {
-    P.config({ aware: false })
-    return P.chain(
+    pchain.config({ aware: false })
+    return pchain(
       () => ({
         a: idAsync('a')
       }),
@@ -113,7 +138,6 @@ suite('bluebird all and props automatically applied in the chain', () => {
       () => [idAsync('a'), idAsync('b')],
       ([a]) =>
         a.then.should.be.a('function', 'should still be promise')
-
     )
   })
 })

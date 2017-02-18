@@ -6,4 +6,5 @@ Promise.config({
   longStackTraces: true
 })
 
-chai.should()
+global.should = chai.should()
+
