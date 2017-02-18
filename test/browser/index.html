@@ -32,7 +32,7 @@
 
     suite('Run some tests in browser', function() {
       test('automatic promise resolving', function(done) {
-        PC.chain(
+        PC(
           ['a', 'a', 'a', 'b', 'c', 'd', 'c', 'd'],
           R.map(function(val) { return idAsync(val) }),
           R.dropWhile(function(val) { return val === 'a' }),
