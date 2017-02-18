@@ -1,4 +1,6 @@
 /* eslint-env mocha */
+/* global should */
+
 import pchain from '../../src/bluebird-chain'
 import { idAsync } from '../async_functions'
 

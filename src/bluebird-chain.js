@@ -65,7 +65,7 @@ bluebirdChain.bind = (state = {}) => ({
     return chainImpl(Promise.resolve().bind(state), ...functions)
   }
 })
- 
+
 bluebirdChain.raw = (func) => ({
   [raw]: func instanceof Function ? func : () => func
 })

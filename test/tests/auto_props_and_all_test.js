@@ -7,7 +7,7 @@ suite('bluebird all and props automatically applied in the chain', () => {
   test('all is automatically applied to the returned array', () =>
     pchain(
       () => [idAsync('a'), idAsync('b')]
-    ).then(([a, b]) =>  {
+    ).then(([a, b]) => {
       a.should.equal('a')
       b.should.equal('b')
     })
@@ -31,7 +31,7 @@ suite('bluebird all and props automatically applied in the chain', () => {
           a: idAsync('a'),
           b: idAsync('b')
         })
-    ).then(({a, b}) =>  {
+    ).then(({a, b}) => {
       a.should.equal('a')
       b.should.equal('b')
     })
@@ -47,7 +47,7 @@ suite('bluebird all and props automatically applied in the chain', () => {
       _.mapValues((val) => idAsync(`${val}map`)),
       ({ a, b }) => {
         a.should.equal('amap')
-        b.should.equal('bmap')   
+        b.should.equal('bmap')
       }
     )
   )
