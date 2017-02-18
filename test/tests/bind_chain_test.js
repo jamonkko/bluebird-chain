@@ -4,7 +4,7 @@ import { idAsync } from '../async_functions'
 
 suite('bluebird bind with chaining', () => {
   test('simple binding with automatically created initial bind value', () =>
-    pchain.bind().chain(
+    pchain.bind()(
       () => idAsync('a'),
       function foo (value) { this.result = value },
       () => idAsync('b'),
@@ -15,7 +15,7 @@ suite('bluebird bind with chaining', () => {
   )
 
   test('initial bind value given', () =>
-    pchain.bind({ result: 'x', other: 'y' }).chain(
+    pchain.bind({ result: 'x', other: 'y' })(
       () => idAsync('a'),
       function foo (value) { this.result += value },
       () => idAsync('b'),

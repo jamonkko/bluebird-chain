@@ -41,7 +41,7 @@ function chainImpl (first, ...functions) {
     }, first)
 }
 
-const bluebirdChain = (...functions) => bluebirdChain.chain(...functions)
+const bluebirdChain = (...functions) => chainImpl(Promise.resolve(), ...functions)
 
 bluebirdChain.config = ({ aware }) => {
   if (typeof aware !== 'undefined') {
@@ -58,14 +58,10 @@ bluebirdChain.config = ({ aware }) => {
   }
 }
 
-bluebirdChain.chain = (...functions) => chainImpl(Promise.resolve(), ...functions)
-
-bluebirdChain.bind = (state = {}) => ({
-  chain (...functions) {
-    return chainImpl(Promise.resolve().bind(state), ...functions)
-  }
-})
-
+bluebirdChain.bind = (state = {}) => 
+  (...functions) =>
+    chainImpl(Promise.resolve().bind(state), ...functions)
+  
 bluebirdChain.esc = (func) => ({
   [esc]: func instanceof Function ? func : () => func
 })
