@@ -13,12 +13,12 @@ const esc = Symbol('esc')
 const options = {}
 
 function chainImpl (first, ...functions) {
-  function allOrPropsIfNeeded (result) {
+  const allOrPropsIfNeeded = (result) => {
     if (!result) {
       return result
     } else if (typeof result.then === 'function') {
       return result
-    } else if (result[esc]) {
+    } else if (result.hasOwnProperty(esc)) {
       return result[esc]()
     } else if (!options.aware) {
       return result
@@ -31,14 +31,21 @@ function chainImpl (first, ...functions) {
     }
     return result
   }
-  return functions
-    .map((f) => ((f instanceof Function || f[esc]) ? f : () => f))
-    .reduce((promise, f) => {
-      if (f[esc]) {
-        return promise.then(f[esc])
-      }
+
+  const liftToFunction = (f) =>
+    (f instanceof Function || (typeof f === 'object' && f.hasOwnProperty(esc))) ? f : () => f
+
+  const chainThen = (promise, f) => {
+    if (f.hasOwnProperty(esc)) {
+      return promise.then(f[esc])
+    } else {
       return promise.then(f).then(allOrPropsIfNeeded)
-    }, first)
+    }
+  }
+
+  return functions
+    .map(liftToFunction)
+    .reduce(chainThen, first)
 }
 
 const bluebirdChain = (...functions) => chainImpl(Promise.resolve(), ...functions)
@@ -58,6 +65,26 @@ bluebirdChain.config = ({ aware }) => {
   }
 }
 
+bluebirdChain.build = (first, ...rest) => {
+  const chain = (argHead, ...argTail) => {
+    if (argTail.length > 0) { return chainImpl(Promise.resolve(), [argHead, ...argTail], bluebirdChain.spread(first), ...rest) } else {
+      return chainImpl(Promise.resolve(), argHead, first, ...rest)
+    }
+  }
+  chain.bind = (state = {}) =>
+    (argHead, ...argTail) => {
+      if (argTail.length > 0) {
+        return chainImpl(Promise.resolve().bind(state), [argHead, ...argTail], bluebirdChain.spread(first), ...rest)
+      } else {
+        return chainImpl(Promise.resolve().bind(state), argHead, first, ...rest)
+      }
+    }
+  return chain
+}
+
+bluebirdChain.spread = (func) =>
+  (args) => func(...args)
+
 bluebirdChain.bind = (state = {}) =>
   (...functions) =>
     chainImpl(Promise.resolve().bind(state), ...functions)
@@ -67,4 +94,5 @@ bluebirdChain.esc = (func) => ({
 })
 
 bluebirdChain.config({ aware: true })
+
 export { bluebirdChain as default }
