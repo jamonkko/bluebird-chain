@@ -1,6 +1,6 @@
 /*!
  * @license
- * bluebird-chain v0.1.0 (https://github.com/jamonkko/bluebird-chain#readme)
+ * bluebird-chain v0.2.0 (https://github.com/jamonkko/bluebird-chain#readme)
  * Copyright 2017 Jarkko Mönkkönen <jamonkko@gmail.com>
  * Licensed under MIT
  */
