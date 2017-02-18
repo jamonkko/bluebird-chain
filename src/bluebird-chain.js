@@ -58,10 +58,10 @@ bluebirdChain.config = ({ aware }) => {
   }
 }
 
-bluebirdChain.bind = (state = {}) => 
+bluebirdChain.bind = (state = {}) =>
   (...functions) =>
     chainImpl(Promise.resolve().bind(state), ...functions)
-  
+
 bluebirdChain.esc = (func) => ({
   [esc]: func instanceof Function ? func : () => func
 })
