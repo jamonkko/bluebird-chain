@@ -13,7 +13,7 @@ const esc = Symbol('esc')
 const options = {}
 
 function chainImpl (first, ...functions) {
-  const allOrPropsIfNeeded = (result) => {
+  const allOrPropsIfNeeded = result => {
     if (!result) {
       return result
     } else if (typeof result.then === 'function') {
@@ -32,8 +32,10 @@ function chainImpl (first, ...functions) {
     return result
   }
 
-  const liftToFunction = (f) =>
-    (f instanceof Function || (typeof f === 'object' && f.hasOwnProperty(esc))) ? f : () => f
+  const liftToFunction = f =>
+    f instanceof Function || typeof f === 'object' && f.hasOwnProperty(esc)
+      ? f
+      : () => f
 
   const chainThen = (promise, f) => {
     if (f.hasOwnProperty(esc)) {
@@ -43,20 +45,16 @@ function chainImpl (first, ...functions) {
     }
   }
 
-  return functions
-    .map(liftToFunction)
-    .reduce(chainThen, first)
+  return functions.map(liftToFunction).reduce(chainThen, first)
 }
 
-const bluebirdChain = (...functions) => chainImpl(Promise.resolve(), ...functions)
+const bluebirdChain = (...functions) =>
+  chainImpl(Promise.resolve(), ...functions)
 
 bluebirdChain.config = ({ aware }) => {
   if (typeof aware !== 'undefined') {
     if (aware === true) {
-      options.aware = {
-        all: true,
-        props: true
-      }
+      options.aware = { all: true, props: true }
     } else if (typeof aware === 'object') {
       options.aware = Object.assign({}, options.aware, aware)
     } else {
@@ -67,29 +65,38 @@ bluebirdChain.config = ({ aware }) => {
 
 bluebirdChain.build = (first, ...rest) => {
   const chain = (argHead, ...argTail) => {
-    if (argTail.length > 0) { return chainImpl(Promise.resolve(), [argHead, ...argTail], bluebirdChain.spread(first), ...rest) } else {
+    if (argTail.length > 0) {
+      return chainImpl(
+        Promise.resolve(),
+        [ argHead, ...argTail ],
+        bluebirdChain.spread(first),
+        ...rest
+      )
+    } else {
       return chainImpl(Promise.resolve(), argHead, first, ...rest)
     }
   }
-  chain.bind = (state = {}) =>
-    (argHead, ...argTail) => {
-      if (argTail.length > 0) {
-        return chainImpl(Promise.resolve().bind(state), [argHead, ...argTail], bluebirdChain.spread(first), ...rest)
-      } else {
-        return chainImpl(Promise.resolve().bind(state), argHead, first, ...rest)
-      }
+  chain.bind = (state = {}) => (argHead, ...argTail) => {
+    if (argTail.length > 0) {
+      return chainImpl(
+        Promise.resolve().bind(state),
+        [ argHead, ...argTail ],
+        bluebirdChain.spread(first),
+        ...rest
+      )
+    } else {
+      return chainImpl(Promise.resolve().bind(state), argHead, first, ...rest)
     }
+  }
   return chain
 }
 
-bluebirdChain.spread = (func) =>
-  (args) => func(...args)
+bluebirdChain.spread = func => args => func(...args)
 
 bluebirdChain.bind = (state = {}) =>
-  (...functions) =>
-    chainImpl(Promise.resolve().bind(state), ...functions)
+  (...functions) => chainImpl(Promise.resolve().bind(state), ...functions)
 
-bluebirdChain.esc = (func) => ({
+bluebirdChain.esc = func => ({
   [esc]: func instanceof Function ? func : () => func
 })
 

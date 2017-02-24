@@ -17,8 +17,9 @@
     "babel": "babel src/bluebird-chain.js -o lib/bluebird-chain.js",
     "minify": "uglifyjs lib/bluebird-chain.js -c -m -o lib/bluebird-chain.min.js",
     "standard": "standard",
+    "prettier": "prettier-standard-formatter src test/*.js",
     "header": "header src/*.js lib/*.js",
-    "build": "npm run header && npm run standard && npm test && npm run babel && npm run minify && npm run header && npm run test:browser",
+    "build": "npm run header && npm run prettier && npm run standard && npm test && npm run babel && npm run minify && npm run header && npm run test:browser",
     "cover": "nyc --require babel-core/register --all mocha",
     "cover:report": "nyc report --reporter=text-lcov | coveralls",
     "cover:open": "npm run cover && open coverage/lcov-report/src/index.js.html"
@@ -75,5 +76,9 @@
     "ignore": [
       "/lib/*"
     ]
+  },
+  "dependencies": {
+    "prettier": "^0.19.0",
+    "prettier-standard-formatter": "^0.111111111111111.111111111111111"
   }
 }
