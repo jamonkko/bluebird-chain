@@ -1,6 +1,7 @@
 {
   "presets": ["es2015"],
   "plugins": [
+  	"transform-object-assign",
     "add-module-exports",
     "transform-es2015-modules-umd",
     ["rename-umd-globals", {
