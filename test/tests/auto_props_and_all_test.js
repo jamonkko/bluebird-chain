@@ -91,8 +91,7 @@ suite('bluebird all and props automatically applied in the chain', () => {
   )
 
   test('automatic props for function can be turned off', () => {
-    pchain.config({ aware: { props: false } })
-    return pchain(
+    return pchain.with({ aware: { props: false } })(
       () => ({
         a: idAsync('a')
       }),
@@ -110,8 +109,7 @@ suite('bluebird all and props automatically applied in the chain', () => {
   )
 
   test('automatic all for function can be turned off', () => {
-    pchain.config({ aware: { all: false } })
-    return pchain(
+    return pchain.with({ aware: { all: false } })(
       () => [idAsync('a'), idAsync('b')],
       ([a]) =>
         a.then.should.be.a('function', 'should still be promise')
@@ -127,8 +125,7 @@ suite('bluebird all and props automatically applied in the chain', () => {
   )
 
   test('automatic resolving can be turned off completely', () => {
-    pchain.config({ aware: false })
-    return pchain(
+    return pchain.with({ aware: false })(
       () => ({
         a: idAsync('a')
       }),

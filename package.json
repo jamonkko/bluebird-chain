@@ -46,9 +46,6 @@
     "url": "https://github.com/jamonkko/bluebird-chain/issues"
   },
   "homepage": "https://github.com/jamonkko/bluebird-chain#readme",
-  "peerDependencies": {
-    "bluebird": ">=0.9.0"
-  },
   "devDependencies": {
     "babel-cli": "^6.8.0",
     "babel-core": "^6.13.2",
