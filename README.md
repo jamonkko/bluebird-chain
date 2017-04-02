@@ -6,6 +6,8 @@
 [![devDependency Status](https://david-dm.org/jamonkko/bluebird-chain/dev-status.svg)](https://david-dm.org/jamonkko/bluebird-chain#info=devDependencies)
 [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 # bluebird-chain
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/jamonkko/bluebird-chain.svg)](https://greenkeeper.io/)
 Compose your async program flow from pure style functions and promises.
 Sorry [await](https://tc39.github.io/ecmascript-asyncawait/#examples), it does not really get any better than this!
 
