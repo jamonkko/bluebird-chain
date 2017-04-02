@@ -33,7 +33,7 @@ function withOptions (opts) {
   const options = extractOptions(opts)
 
   const option = (key, subkey) => {
-    const dig = (obj, key, subkey) => {
+    function dig (obj, key, subkey) {
       if (obj === null || typeof obj !== 'object') {
         return {}
       } else {
@@ -72,7 +72,7 @@ function withOptions (opts) {
     }
 
     const liftToFunction = f =>
-      f instanceof Function || typeof f === 'object' && f.hasOwnProperty(esc)
+      f instanceof Function || (typeof f === 'object' && f.hasOwnProperty(esc))
         ? f
         : () => f
 
@@ -100,7 +100,7 @@ function withOptions (opts) {
       if (argTail.length > 0) {
         return chainImpl(
           option('promise').resolve(),
-          [ argHead, ...argTail ],
+          [argHead, ...argTail],
           bluebirdChain.spread(first),
           ...rest
         )
@@ -112,7 +112,7 @@ function withOptions (opts) {
       if (argTail.length > 0) {
         return chainImpl(
           option('promise').resolve().bind(state),
-          [ argHead, ...argTail ],
+          [argHead, ...argTail],
           bluebirdChain.spread(first),
           ...rest
         )
