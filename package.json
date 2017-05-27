@@ -64,7 +64,7 @@
     "module-header": "github:jamonkko/module-header#replace-existing",
     "nyc": "^10.2.0",
     "phantomjs-prebuilt": "^2.1.7",
-    "ramda": "^0.23.0",
+    "ramda": "^0.24.0",
     "standard": "^9.0.2",
     "uglify-js": "^2.7.0"
   },
