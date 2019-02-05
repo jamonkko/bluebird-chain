@@ -62,7 +62,7 @@
     "mocha": "^3.4.2",
     "mocha-phantomjs-core": "^2.1.1",
     "module-header": "github:jamonkko/module-header#replace-existing",
-    "nyc": "^11.0.1",
+    "nyc": "^13.2.0",
     "phantomjs-prebuilt": "^2.1.7",
     "ramda": "^0.25.0",
     "standard": "^9.0.2",
