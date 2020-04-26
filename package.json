@@ -59,7 +59,7 @@
     "chai": "^4.0.1",
     "coveralls": "^3.0.0",
     "lodash": "^4.6.1",
-    "mocha": "^3.4.2",
+    "mocha": "^7.1.2",
     "mocha-phantomjs-core": "^2.1.1",
     "module-header": "github:jamonkko/module-header#replace-existing",
     "nyc": "^11.0.1",
